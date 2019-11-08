@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Template version="1.1" name="test-template" width="60">
+	<ParamFormatter paramtype="testname" alignment="center" width="10"/>
+	<ParamFormatter paramtype="val" width="10" precision="-1"/>
+	<ParamFormatter paramtype="lnorm" alignment="right" width="10" precision="2"/>
+	<ParamFormatter paramtype="unorm" width="10" precision="3"/>
+	<ParamFormatter paramtype="units" width="10"/>
+<!--                                  1         2         3         4         5         6
+	                         123456789012345678901234567890123456789012345678901234567890 -->
+	<Text alignment="left">Наименование       значение  ед.изм.           норма</Text>
+	<LabeledBlock label='label01'>
+		<Text alignment="center">some description for label01</Text>
+		<Text alignment="left">[testname]          [val][units][lnorm]-[unorm]</Text>
+	</LabeledBlock>
+	<LabeledBlock label='label02'>
+		<Text alignment="center">some description for label02</Text>
+		<Text alignment="left">[testname]          [val][units][lnorm]-[unorm]</Text>
+	</LabeledBlock>	
+	<Text alignment="left">Tail-text-01</Text>
+	<Text/>
+	<Text>
+	</Text>
+	<Text>
+	</Text>
+	<Text alignment="center">ЗАКЛЮЧЕНИЕ И КОММЕНТАРИИ</Text>
+	<ConditionalBlock condition='label01_val&gt;=label01_lnorm &amp;&amp; label01_val&lt;=label01_unorm'>
+		<Text alignment="left">[label01_testname] в норме</Text>
+	</ConditionalBlock>
+	<ConditionalBlock condition='label01_val&lt;label01_lnorm || label01_val&gt;=label01_unorm'>
+		<Text alignment="left">[label01_testname] вне нормы</Text>
+	</ConditionalBlock>
+	<ConditionalBlock condition='label02_val&gt;=label02_lnorm &amp;&amp; label02_val&lt;=label02_unorm'>
+		<Text alignment="left">[label02_testname] в норме</Text>
+	</ConditionalBlock>
+	<ConditionalBlock condition='label02_val&lt;label02_lnorm || label02_val&gt;=label02_unorm'>
+		<Text alignment="left">[label02_testname] вне нормы</Text>
+	</ConditionalBlock>	
+	<ConditionalBlock condition='label04_val&gt;=label04_lnorm &amp;&amp; label04_val&lt;=label04_unorm'>
+		<Text alignment="left">[label04_testname] в норме</Text>
+	</ConditionalBlock>
+	<ConditionalBlock condition='label04val&lt;label04_lnorm || label04_val&gt;=label04_unorm'>
+		<Text alignment="left">[label04_testname] вне нормы</Text>
+	</ConditionalBlock>	
+
+</Template>

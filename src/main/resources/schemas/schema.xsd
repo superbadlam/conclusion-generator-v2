@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema version="1.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:complexType name="Element" abstract="true" />
+
+	<xs:complexType name="Text">
+		<xs:complexContent mixed="true">
+			<xs:extension base="Element">
+				<xs:sequence minOccurs="0" maxOccurs="0" />
+				<xs:attribute name="alignment" type="TextAlignment"	use="optional" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Block">
+		<xs:complexContent>
+			<xs:extension base="Element">
+				<xs:sequence minOccurs="1" maxOccurs="unbounded">
+					<xs:element ref="Text" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="ConditionalBlock">
+		<xs:complexContent>
+			<xs:extension base="Block">
+				<xs:attribute name="condition" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:whiteSpace value="collapse"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="LabeledBlock">
+		<xs:complexContent>
+			<xs:extension base="Block">
+				<xs:attribute name="label" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:whiteSpace value="collapse"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Template">
+		<xs:sequence>
+			<xs:element name="ParamFormatter" type="ParamFormatter"
+				minOccurs="0" maxOccurs="unbounded"></xs:element>
+			<xs:element ref="NewElement" minOccurs="1"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="version" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="width" type="xs:int" default="60" use="optional" />		
+	</xs:complexType>
+
+	<xs:element name="NewElement" type="Element" />
+	<xs:element name="Template" type="Template" />
+	<xs:element name="Text" type="Text"	substitutionGroup="NewElement" />
+	<xs:element name="LabeledBlock" type="LabeledBlock" substitutionGroup="NewElement" />
+	<xs:element name="ConditionalBlock" type="ConditionalBlock"	substitutionGroup="NewElement" />
+
+
+	<xs:complexType name="ParamFormatter">
+		
+		<xs:attribute name="precision" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minInclusive value="-1"></xs:minInclusive>
+					<xs:maxInclusive value="25"></xs:maxInclusive>
+					<xs:whiteSpace value="collapse"></xs:whiteSpace>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		
+		<xs:attribute name="alignment" use="optional" type="TextAlignment" />
+		
+		<xs:attribute name="width" use="optional">
+			<xs:simpleType>
+				<xs:restriction base="xs:int">
+					<xs:minExclusive value="0" />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		
+		<xs:attribute name="paramtype" use="required" type="ParamType"/>
+		
+	</xs:complexType>
+
+	<xs:simpleType name="ParamType">
+		<xs:restriction base="xs:string">
+					<xs:enumeration value="testname" />
+					<xs:enumeration value="val" />
+					<xs:enumeration value="lnorm" />
+					<xs:enumeration value="unorm" />
+					<xs:enumeration value="units" />
+					<xs:enumeration value="barcode" />
+					<xs:enumeration value="shortId" />
+					<xs:enumeration value="daysOfLive" />
+					<xs:enumeration value="mounthesOfLive" />
+					<xs:enumeration value="yearsOfLive" />
+					<xs:enumeration value="sex" />
+					<xs:enumeration value="faza" />
+					<xs:enumeration value="contingent" />
+					<xs:enumeration value="berem" />
+					<xs:enumeration value="ves" />
+					<xs:enumeration value="address" />
+					<xs:enumeration value="volume" />
+					<xs:enumeration value="flag" />
+					<xs:whiteSpace value="collapse" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TextAlignment">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="left"></xs:enumeration>
+			<xs:enumeration value="center"></xs:enumeration>
+			<xs:enumeration value="right"></xs:enumeration>
+			<xs:whiteSpace value="collapse"></xs:whiteSpace>
+		</xs:restriction>
+	</xs:simpleType>
+
+	
+</xs:schema>
